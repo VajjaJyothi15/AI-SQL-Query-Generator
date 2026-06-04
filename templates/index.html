@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>AI SQL Assistant</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>AI SQL Assistant</h1>
+
+    <form method="POST">
+
+        <textarea
+           name="question"
+           placeholder="Enter your SQL question..."
+        required>{{ question }}</textarea>
+
+       <select name="dialect">
+
+    <option value="MySQL"
+        {% if dialect == "MySQL" %}selected{% endif %}>
+        MySQL
+    </option>
+
+    <option value="PostgreSQL"
+        {% if dialect == "PostgreSQL" %}selected{% endif %}>
+        PostgreSQL
+    </option>
+
+    <option value="Oracle"
+        {% if dialect == "Oracle" %}selected{% endif %}>
+        Oracle
+    </option>
+
+    <option value="SQL Server"
+        {% if dialect == "SQL Server" %}selected{% endif %}>
+        SQL Server
+    </option>
+
+</select>
+
+        <button type="submit">
+            Generate SQL
+        </button>
+
+    </form>
+
+    {% if result %}
+
+    <div class="result-box">
+
+        <h2>Generated Query</h2>
+
+        <pre id="sqlQuery">{{ result.query }}</pre>
+
+        <button onclick="copySQL()">
+            Copy Query
+        </button>
+
+        <h2>Explanation</h2>
+
+        <p>{{ result.explanation }}</p>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>
