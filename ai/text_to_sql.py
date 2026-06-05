@@ -11,7 +11,7 @@ client = Groq(
 )
 
 
-def generate_sql(question, dialect):
+def generate_sql(question, dialect, model_name):
 
     prompt = f"""
 {SQL_PROMPT}
@@ -24,8 +24,9 @@ User Question:
 """
 
     try:
+
         response = client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
+            model=model_name,
             messages=[
                 {
                     "role": "user",
@@ -38,15 +39,18 @@ User Question:
         result = response.choices[0].message.content.strip()
 
         try:
+
             return json.loads(result)
 
         except Exception:
+
             return {
                 "query": result,
                 "explanation": "SQL generated successfully."
             }
 
     except Exception as e:
+
         return {
             "query": "",
             "explanation": f"Error: {str(e)}"

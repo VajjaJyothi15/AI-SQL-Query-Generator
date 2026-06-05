@@ -1,7 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>AI SQL Assistant</title>
 
@@ -12,62 +15,80 @@
 
 <body>
 
-<div class="container">
+<div class="main-container">
 
-    <h1>AI SQL Assistant</h1>
+    <div class="glass-card">
 
-    <form method="POST">
+        <h1>🤖 AI SQL Assistant</h1>
 
-        <textarea
-           name="question"
-           placeholder="Enter your SQL question..."
-        required>{{ question }}</textarea>
 
-       <select name="dialect">
+        <form method="POST">
 
-    <option value="MySQL"
-        {% if dialect == "MySQL" %}selected{% endif %}>
-        MySQL
-    </option>
+            <label>
+                Enter Your Question
+            </label>
 
-    <option value="PostgreSQL"
-        {% if dialect == "PostgreSQL" %}selected{% endif %}>
-        PostgreSQL
-    </option>
+            <textarea
+                name="question"
+                placeholder="Example: Show all employees whose salary is greater than 50000"
+                required>{{ question }}</textarea>
 
-    <option value="Oracle"
-        {% if dialect == "Oracle" %}selected{% endif %}>
-        Oracle
-    </option>
+            <label>
+                SQL Dialect
+            </label>
 
-    <option value="SQL Server"
-        {% if dialect == "SQL Server" %}selected{% endif %}>
-        SQL Server
-    </option>
+            <select name="dialect">
 
-</select>
+                <option value="MySQL"
+                    {% if dialect=="MySQL" %}selected{% endif %}>
+                    MySQL
+                </option>
 
-        <button type="submit">
-            Generate SQL
-        </button>
+                <option value="PostgreSQL"
+                    {% if dialect=="PostgreSQL" %}selected{% endif %}>
+                    PostgreSQL
+                </option>
 
-    </form>
+                <option value="Oracle"
+                    {% if dialect=="Oracle" %}selected{% endif %}>
+                    Oracle
+                </option>
+
+                <option value="SQL Server"
+                    {% if dialect=="SQL Server" %}selected{% endif %}>
+                    SQL Server
+                </option>
+
+            </select>
+        
+            <button type="submit">
+                Generate SQL Query
+            </button>
+
+        </form>
+
+    </div>
 
     {% if result %}
 
-    <div class="result-box">
+    <div class="output-card">
 
-        <h2>Generated Query</h2>
+        <h2>Generated SQL Query</h2>
 
-        <pre id="sqlQuery">{{ result.query }}</pre>
+        <pre>{{ result.query }}</pre>
+        <a
+href="/download?query={{ result.query }}"
+class="download-btn">
 
-        <button onclick="copySQL()">
-            Copy Query
-        </button>
+Download SQL File
+
+</a>
 
         <h2>Explanation</h2>
 
-        <p>{{ result.explanation }}</p>
+        <div class="explanation-box">
+            {{ result.explanation }}
+        </div>
 
     </div>
 
@@ -75,7 +96,6 @@
 
 </div>
 
-<script src="{{ url_for('static', filename='script.js') }}"></script>
-
 </body>
+
 </html>
